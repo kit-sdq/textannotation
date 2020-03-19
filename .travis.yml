@@ -3,9 +3,9 @@ language: java
 
 addons:
   sonarcloud:
-    organization: lukasbach-github
+    organization: "kit-sdq"
     token:
-      secure: qOvgagzq/KsRrDH1xZHKhao6fQBApzgcdZXBetgbMu2DEgiFaGiCPcbtWhnJw4mxyGeM2QVD/Bo5k/dR9ELh6Wg/j6SsVoxmIsFiBFCD+GVSPBPuorO3ORXKtSvQSW5Jqx1186vK0iNAlyI/Iyt0n1s7WM/u+DIOeN2tB+KCWeabke8USBdc9cnAEtjnXKvyOzQvTzRL1Rv/+UcSuqTeuxE7B5KDKoQaTOzQQe0AH+pAiFR2SAGqVpEl1XhPbqhnMBe7d/kTtcqeIu8nL8ld2KAGVRNcWoWrr0fSX+pu1TX4/OeKWiZ6/buHoxwzrPPGyHFLCxwmVJ4BCa70wY5gBtmSLquub/xoiIvzroJB6yffpv8lwMC4hm8EVZviUO0hUno/dqdaS9U2jenYckbZaZssFwMTI5ROK2KzZfS240+HRNBNkXulQd/JzNP8+9vWpVTZAN94+5ggVyhN01DiT/npQes4SO5GsCmliABl1kjU4hMK+IBsNADYvdbHKmHiOIbCGNGkIEBCwcO3MAwCj00hSEm/uhJhgAfGRV6Gx0xSZQXX99nL8AArhBkeovp+bc50SXZ6hD3/MZ5Joe6lTT98JVspH0A6uDZE/T3jcTp1e7dBxNdcHpPgNiGY09naFp3VHzP3FcK9lI+2l76ppWKLoxThMGb5GtmZAeKKIDQ=
+       secure: "srIUXNjXPIsQZXofH0g2H8JAAO5mYZiLdQrJ6AQr0pxWTCwlgJYyWdcjipNFNoMbB954ToeGB1P+/ej903hS6kxm4Cb0RIjdNNDaDXeheYwefSRhoVt8HsvtUtdgslE2QaHa6xOReDW29ZP1oBkGoZWwWMliKXNLuBnVwfo8xCQCgCt9d/QwaukhDu1AMMZV32QidfYZIurSxvkePEru1tPyvtDCPZzRZvPcp78lVmB4oHuEHLVZko9+q/JcCFAPE4LkhNraS3kFO6yUjzM6PTwJgqUkTFEvoDWoOMnSUORfJNUEr8UpK1udVKC55KRz1TmtQDV7/baKWu+ZhWFkG0K04oPqN3IAeDUybi2zPRdoZpLOAPTfRWzT8iOYSF4UeERl2H0oS9W0P1lwqrM8sjArduMmPxUTWqLY5mE25W4tQQru8c0wd87900oc1eP5K0Ba+B5rZV5F25Lw/IcpLxrA0fEUAT72+7o+YwOalrjqDE+XngpEOoKyp6INCotVR+JUUeoVdseOktqskZiL/hsdwMiW2uViIqyhRyOYMoQa/6QWpeo9TRVhOjVpV0IH3twBVeokDlCBuF3vlWvRcwesZfzYQWvg7j4EP1kk0hNm4lXsuBqqRF7MSl7a52QcIWx9c0aIZ9YTZ36C8pHxRcW5qG0IdVCK3JDjoIPQXrs="
 
 os: linux
 jdk: openjdk11
@@ -31,7 +31,7 @@ script:
 
   # Download Jacoco CLI
   - curl https://repo1.maven.org/maven2/org/jacoco/org.jacoco.cli/0.8.5/org.jacoco.cli-0.8.5-nodeps.jar --output jacococli.jar
-  
+
   # Generate jacoco XML reports from binary output
   - java -jar jacococli.jar report tests/edu.kit.textannotation.annotationplugin.tests/target/coverage-reports/jacoco.exec --classfiles bundles/edu.kit.textannotation.annotationplugin/target/classes --html $HOME/coverage --xml $HOME/jacoco.xml
 
@@ -41,7 +41,7 @@ script:
 deploy:
   # deploy jar files to github releases
   provider: releases
-  file: 
+  file:
     - features/edu.kit.textannotation.feature/target/edu.kit.textannotation.feature-1.0.0-SNAPSHOT.jar
     - bundles/edu.kit.textannotation.annotationplugin/target/edu.kit.textannotation.annotationplugin-1.0.0-SNAPSHOT.jar
   skip_cleanup: true
