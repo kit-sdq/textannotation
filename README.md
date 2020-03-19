@@ -1,26 +1,25 @@
 # Eclipse Text Annotation Plugin
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=kit-sdq_textannotation)
+[![Build Status](https://travis-ci.org/kit-sdq/textannotation.svg?branch=master)](https://travis-ci.org/kit-sdq/textannotation)
 
-[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=lukasbach_textannotation)
-[![Build Status](https://travis-ci.com/lukasbach/textannotation.svg?branch=master)](https://travis-ci.com/lukasbach/textannotation)
-
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=lukasbach_textannotation&metric=coverage)](https://sonarcloud.io/dashboard?id=lukasbach_textannotation)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=lukasbach_textannotation&metric=ncloc)](https://sonarcloud.io/dashboard?id=lukasbach_textannotation)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=lukasbach_textannotation&metric=bugs)](https://sonarcloud.io/dashboard?id=lukasbach_textannotation)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=lukasbach_textannotation&metric=code_smells)](https://sonarcloud.io/dashboard?id=lukasbach_textannotation)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=lukasbach_textannotation&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=lukasbach_textannotation)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=lukasbach_textannotation&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=lukasbach_textannotation)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=kit-sdq_textannotation&metric=coverage)](https://sonarcloud.io/dashboard?id=kit-sdq_textannotation)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=kit-sdq_textannotation&metric=ncloc)](https://sonarcloud.io/dashboard?id=kit-sdq_textannotation)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=kit-sdq_textannotation&metric=bugs)](https://sonarcloud.io/dashboard?id=kit-sdq_textannotation)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=kit-sdq_textannotation&metric=code_smells)](https://sonarcloud.io/dashboard?id=kit-sdq_textannotation)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=kit-sdq_textannotation&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=kit-sdq_textannotation)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=kit-sdq_textannotation&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=kit-sdq_textannotation)
 
 ![Plugin Screenshot](screenshot.png)
 
 ## Quick Setup
 
-For now the plugin has to be installed manually. Download the latest ``edu.kit.textannotation.annotationplugin-1.0.0-SNAPSHOT.jar`` file from the most recent [release](https://github.com/lukasbach/textannotation/releases) and place it in ``%eclipse-install-dir%/dropins/plugins``. The ``plugins`` subdirectory might not exist yet and has to be created in this case.
+For now the plugin has to be installed manually. Download the latest ``edu.kit.textannotation.annotationplugin-1.0.0-SNAPSHOT.jar`` file from the most recent [release](https://github.com/kit-sdq/textannotation/releases) and place it in ``%eclipse-install-dir%/dropins/plugins``. The ``plugins`` subdirectory might not exist yet and has to be created in this case.
 
 Then start eclipse with the ``-clean`` option for it to load the plugin.
 
 ## Examples
 
-The repository comes with an example Eclipse workspace to explore the functions of the plugin. Clone the repository with ``git clone https://github.com/lukasbach/textannotation && cd textannotation/example`` and open an Eclipse workspace at that location. You can then open the file ``annotation-example-project/travelManagement.taf`` in Eclipse with the plugin installed.
+The repository comes with an example Eclipse workspace to explore the functions of the plugin. Clone the repository with ``git clone https://github.com/kit-sdq/textannotation && cd textannotation/example`` and open an Eclipse workspace at that location. You can then open the file ``annotation-example-project/travelManagement.taf`` in Eclipse with the plugin installed.
 
 ## Using the Annotation Perspective
 
