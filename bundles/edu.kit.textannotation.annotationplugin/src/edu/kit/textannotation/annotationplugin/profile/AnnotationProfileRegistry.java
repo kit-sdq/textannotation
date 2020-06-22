@@ -150,14 +150,17 @@ public class AnnotationProfileRegistry {
             writeStream = new FileOutputStream(file, false);
             writeStream.write(fileContent.getBytes());
         } catch (IOException e) {
-            logger.error(e);
-            EclipseUtils.reportError("Could not save profile data: " + e.getMessage());
+            String message = "Could not save profile data: " + e.getMessage();
+            logger.error(message, e);
+            EclipseUtils.reportError(message);
         } finally {
             if (writeStream != null) {
                 try {
                     writeStream.close();
                 } catch (IOException e) {
-                    EclipseUtils.reportError("Could not close profile write stream: " + e.getMessage());
+                    String msg = "Could not close profile write stream: " + e.getMessage();
+                    logger.error(msg, e);
+                    EclipseUtils.reportError(msg);
                 }
             }
         }
@@ -172,7 +175,7 @@ public class AnnotationProfileRegistry {
         for (String registryPath : registryPaths) {
             Stream<Path> paths = null;
             try {
-                logger.info("Walking " + registryPath);
+                logger.debug("Walking " + registryPath);
                 paths = Files.walk(Paths.get(registryPath));
 
                 paths.filter(Files::isRegularFile)
@@ -189,15 +192,17 @@ public class AnnotationProfileRegistry {
                              profiles.add(profile);
                              profilePathMap.put(profile.getId(), f);
                          } catch (IOException e) {
-                             logger.error(e);
-                             EclipseUtils.reportError("Could not read profile: " + e.getMessage());
+                             String message = "Could not read profile: " + e.getMessage();
+                             EclipseUtils.reportError(message);
+                             logger.error(message, e);
                          } catch (InvalidFileFormatException e) {
-                             logger.error(e);
-                             EclipseUtils.reportError("Profile is improperly formatted: " + e.getMessage());
+                             String message = "Profile is improperly formatted: " + e.getMessage();
+                             EclipseUtils.reportError(message);
+                             logger.error(message, e);
                          }
                      });
             } catch (IOException e) {
-                logger.info(String.format("Skipping annotation profiles in %s.", registryPath));
+                logger.error(String.format("IOException. Skipping annotation profiles in %s.", registryPath));
             } finally {
                 if (paths != null) {
                     paths.close();
