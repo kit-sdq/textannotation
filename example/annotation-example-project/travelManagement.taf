@@ -20,6 +20,7 @@
   <annotation annotation="Stakeholder" id="e97f35d5-91d2-4c34-9022-5d0e016ee16b" length="34" offset="2223"/>
   <annotation annotation="Stakeholder" id="a1fed711-0850-4429-95e0-04229276a25c" length="11" offset="2275"/>
   <annotation annotation="Stakeholder" id="6c55796a-efdb-4a3c-81cd-c11764fc6f7d" length="11" offset="2476"/>
+  <annotation annotation="Goal" id="9467d675-ac40-4e89-8ee3-1eb4a8ec2beb" length="147" offset="2553"/>
   <content>So far, our travel management is still characterized by many forms and manual transfers. We want to
 completely replace this old system with a new, paperless system that will reduce the costs of processing
 travel requests and travel reimbursements and that will simplify the booking and documentation for the
@@ -49,5 +50,7 @@ reports that help the controlling department to reduce the travel costs at Sigur
 For authorization of employees, the new system must be connected to our central Identity Management
 System, operated by the IT Services, because we do not want to manage the rights more than once. Any
 unauthorized access to the system should be prevented. I think the system should also be operated in the
-data center of our IT services so that the existing infrastructure can be used cost-efficiently.</content>
+data center of our IT services so that the existing infrastructure can be used cost-efficiently.
+
+I think the system should also be operated in the data center of our IT services so that the existing infrastructure can be used cost-efficiently.</content>
 </annotated>

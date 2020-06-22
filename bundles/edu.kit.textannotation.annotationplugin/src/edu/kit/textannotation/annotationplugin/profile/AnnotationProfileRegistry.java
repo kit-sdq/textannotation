@@ -33,8 +33,9 @@ import edu.kit.textannotation.annotationplugin.utils.EclipseUtils;
  * The registry resolves profiles which are located in the following paths:
  *
  * <ul>
- * <li>%eclispeinstallation%/.textannotation</li>
- * <li>The workspace directory</li>
+ * <li>%HOME%/.textannotation</li>
+ * <li>The workspace directory root</li>
+ * <li>projects within the workspace</li>
  * </ul>
  */
 public class AnnotationProfileRegistry {
@@ -187,7 +188,7 @@ public class AnnotationProfileRegistry {
                          try {
                              String s = new String(Files.readAllBytes(f));
                              AnnotationProfile profile = annotationProfileXmlInterface.parseXml(s);
-                             logger.info(String.format("Parsed '%s' from '%s'", profile.getId(), f.toString()));
+                             logger.debug(String.format("Parsed '%s' from '%s'", profile.getId(), f.toString()));
 
                              profiles.add(profile);
                              profilePathMap.put(profile.getId(), f);

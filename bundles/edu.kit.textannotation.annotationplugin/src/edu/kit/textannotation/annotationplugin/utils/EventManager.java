@@ -58,7 +58,7 @@ public class EventManager<T> {
      */
     public EventManager<T> addListener(Consumer<T> listener) {
         listeners.add(listener);
-        log(String.format("listener added (%s->%s).", listeners.size() - 1, listeners.size()));
+        debug(String.format("listener added (%s->%s).", listeners.size() - 1, listeners.size()));
         return this;
     }
 
@@ -72,7 +72,7 @@ public class EventManager<T> {
      */
     public EventManager<T> removeListener(Consumer<T> listener) {
         listeners.remove(listener);
-        log(String.format("listener removed (%s->%s).", listeners.size() + 1, listeners.size()));
+        debug(String.format("listener removed (%s->%s).", listeners.size() + 1, listeners.size()));
         return this;
     }
 
@@ -84,7 +84,7 @@ public class EventManager<T> {
      */
     public void fire(T payload) {
         listeners.forEach(l -> l.accept(payload));
-        log(String.format("listener fired with payload \"%s\"", payload.toString()));
+        debug(String.format("listener fired with payload \"%s\"", payload.toString()));
     }
 
     /**
@@ -98,9 +98,9 @@ public class EventManager<T> {
         otherEventManager.addListener(otherEventManager::fire);
     }
 
-    private void log(String line) {
+    private void debug(String line) {
         if (name != null) {
-            logger.info(String.format("Eventmanager(%s): %s", name, line));
+            logger.debug(String.format("Eventmanager(%s): %s", name, line));
         }
     }
 }
