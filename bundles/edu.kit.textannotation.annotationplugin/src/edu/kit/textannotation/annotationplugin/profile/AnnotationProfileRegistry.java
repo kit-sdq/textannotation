@@ -1,37 +1,48 @@
 package edu.kit.textannotation.annotationplugin.profile;
 
-import edu.kit.textannotation.annotationplugin.textmodel.InvalidFileFormatException;
-import edu.kit.textannotation.annotationplugin.textmodel.xmlinterface.AnnotationProfileXmlInterface;
-import edu.kit.textannotation.annotationplugin.utils.EclipseUtils;
-import edu.kit.textannotation.annotationplugin.PluginConfig;
-import edu.kit.textannotation.annotationplugin.textmodel.InvalidAnnotationProfileFormatException;
-import org.osgi.framework.Bundle;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
+import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IProject;
+import org.osgi.framework.Bundle;
+
+import edu.kit.textannotation.annotationplugin.PluginConfig;
+import edu.kit.textannotation.annotationplugin.textmodel.InvalidAnnotationProfileFormatException;
+import edu.kit.textannotation.annotationplugin.textmodel.InvalidFileFormatException;
+import edu.kit.textannotation.annotationplugin.textmodel.xmlinterface.AnnotationProfileXmlInterface;
+import edu.kit.textannotation.annotationplugin.utils.EclipseUtils;
+
 /**
- * The Annotation Profile Registry is used to read profiles from disk and resolve a profile by its ID.
- * This can be used by clients that have an instance of
- * {@link edu.kit.textannotation.annotationplugin.textmodel.TextModelData}, which contains annotation data and the
- * ID of the profile, but not the profile itself.
- * <br/><br/>
+ * The Annotation Profile Registry is used to read profiles from disk and resolve a profile by its ID. This can be used
+ * by clients that have an instance of {@link edu.kit.textannotation.annotationplugin.textmodel.TextModelData}, which
+ * contains annotation data and the ID of the profile, but not the profile itself. <br/>
+ * <br/>
  *
  * The registry resolves profiles which are located in the following paths:
  *
  * <ul>
- *     <li>%eclispeinstallation%/.textannotation</li>
- *     <li>The workspace directory</li>
+ * <li>%eclispeinstallation%/.textannotation</li>
+ * <li>The workspace directory</li>
  * </ul>
  */
 public class AnnotationProfileRegistry {
+    private static final Logger logger = Logger.getLogger(AnnotationProfileRegistry.class);
+    static {
+        logger.addAppender(EclipseUtils.getLoggerConsoleAppender());
+    }
+
     private AnnotationProfileXmlInterface annotationProfileXmlInterface = new AnnotationProfileXmlInterface();
     private List<String> registryPaths;
     private List<AnnotationProfile> profiles;
@@ -40,22 +51,32 @@ public class AnnotationProfileRegistry {
     private Map<String, Path> profilePathMap;
 
     /**
-     * Create a new registry instance with the supplied paths where the registry will look for
-     * profiles. This should usually not be used by clients as this class already implements a
-     * usable selection of default-paths. A reference to an registry object can be obtained via
-     * {@link AnnotationProfileRegistry::createNew}, which uses sensible defaults.
-     * @param registryPaths are paths to where the registry will look for profile files.
+     * Create a new registry instance with the supplied paths where the registry will look for profiles. This should
+     * usually not be used by clients as this class already implements a usable selection of default-paths. A reference
+     * to an registry object can be obtained via {@link AnnotationProfileRegistry::createNew}, which uses sensible
+     * defaults.
+     *
+     * @param registryPaths
+     *            are paths to where the registry will look for profile files.
      */
     public AnnotationProfileRegistry(List<String> registryPaths) {
         this.registryPaths = registryPaths;
-        this.profiles = new LinkedList<>();
-        this.profilePathMap = new HashMap<>();
-        registryPaths.forEach(p -> EclipseUtils.logger().info("ProfileRegistry path loaded: " + p));
+        profiles = new LinkedList<>();
+        profilePathMap = new HashMap<>();
+        if (logger.isInfoEnabled()) {
+            registryPaths.forEach(p -> logger.info("ProfileRegistry path loaded: " + p));
+            if (registryPaths.isEmpty()) {
+                logger.info("No ProfileRegistry paths loaded!");
+            }
+        }
+
     }
 
     /**
      * Create a new registry instance, using sensible lookup defaults.
-     * @param bundle is defined by the Eclipse environment.
+     *
+     * @param bundle
+     *            is defined by the Eclipse environment.
      * @return a registry instance.
      */
     public static AnnotationProfileRegistry createNew(Bundle bundle) {
@@ -72,24 +93,31 @@ public class AnnotationProfileRegistry {
 
     /**
      * Resolve a profile instance by its name.
-     * @param profileId the name of the profile, which is used for resolvement.
+     *
+     * @param profileId
+     *            the name of the profile, which is used for resolvement.
      * @return a {@link AnnotationProfile} instance if the profile could be resolved.
-     * @throws ProfileNotFoundException if the profile was not found on disk.
-     * @throws InvalidAnnotationProfileFormatException if the profile file was malformed.
+     * @throws ProfileNotFoundException
+     *             if the profile was not found on disk.
+     * @throws InvalidAnnotationProfileFormatException
+     *             if the profile file was malformed.
      */
-    public AnnotationProfile findProfile(String profileId) throws ProfileNotFoundException, InvalidAnnotationProfileFormatException {
+    public AnnotationProfile findProfile(String profileId)
+            throws ProfileNotFoundException, InvalidAnnotationProfileFormatException {
         readProfiles();
-        return profiles
-                .stream()
-                .filter(p -> p.getId().equals(profileId))
-                .findFirst()
-                .orElseThrow(() -> new ProfileNotFoundException(profileId, this));
+        return profiles.stream()
+                       .filter(p -> p.getId()
+                                     .equals(profileId))
+                       .findFirst()
+                       .orElseThrow(() -> new ProfileNotFoundException(profileId, this));
     }
 
     /**
      * Get a list of all profiles which could be found on disk.
+     *
      * @return a list of the found profiles.
-     * @throws InvalidAnnotationProfileFormatException if one of the profile files was malformed.
+     * @throws InvalidAnnotationProfileFormatException
+     *             if one of the profile files was malformed.
      */
     public List<AnnotationProfile> getProfiles() throws InvalidAnnotationProfileFormatException {
         readProfiles();
@@ -97,9 +125,10 @@ public class AnnotationProfileRegistry {
     }
 
     /**
-     * Find the profile with the same name on disk, and overwrite its file with the supplied
-     * new profile data.
-     * @param profile contains the changed profile name alongside the name of the old profile.
+     * Find the profile with the same name on disk, and overwrite its file with the supplied new profile data.
+     *
+     * @param profile
+     *            contains the changed profile name alongside the name of the old profile.
      */
     public void overwriteProfile(AnnotationProfile profile) {
         FileOutputStream writeStream = null;
@@ -110,7 +139,7 @@ public class AnnotationProfileRegistry {
             writeStream = new FileOutputStream(file, false);
             writeStream.write(fileContent.getBytes());
         } catch (IOException e) {
-            EclipseUtils.logger().error(e);
+            logger.error(e);
             EclipseUtils.reportError("Could not save profile data: " + e.getMessage());
         } finally {
             if (writeStream != null) {
@@ -129,34 +158,35 @@ public class AnnotationProfileRegistry {
 
         AtomicReference<String> error = new AtomicReference<>(null);
 
-        for (String registryPath: registryPaths) {
+        for (String registryPath : registryPaths) {
             Stream<Path> paths = null;
             try {
-                EclipseUtils.logger().info("Walking " + registryPath);
+                logger.info("Walking " + registryPath);
                 paths = Files.walk(Paths.get(registryPath));
 
-                paths
-                    .filter(Files::isRegularFile)
-                    .filter(f -> f.getFileName().toString().toLowerCase()
-                            .endsWith("." + PluginConfig.ANNOTATION_PROFILE_EXTENSION))
-                    .forEach(f -> {
-                        try {
-                            String s = new String(Files.readAllBytes(f));
-                            AnnotationProfile profile = annotationProfileXmlInterface.parseXml(s);
-                            EclipseUtils.logger().info(String.format("Parsed '%s' from '%s'", profile.getId(), f.toString()));
+                paths.filter(Files::isRegularFile)
+                     .filter(f -> f.getFileName()
+                                   .toString()
+                                   .toLowerCase()
+                                   .endsWith("." + PluginConfig.ANNOTATION_PROFILE_EXTENSION))
+                     .forEach(f -> {
+                         try {
+                             String s = new String(Files.readAllBytes(f));
+                             AnnotationProfile profile = annotationProfileXmlInterface.parseXml(s);
+                             logger.info(String.format("Parsed '%s' from '%s'", profile.getId(), f.toString()));
 
-                            profiles.add(profile);
-                            profilePathMap.put(profile.getId(), f);
-                        } catch (IOException e) {
-                            EclipseUtils.logger().error(e);
-                            EclipseUtils.reportError("Could not read profile: " + e.getMessage());
-                        } catch (InvalidFileFormatException e) {
-                            EclipseUtils.logger().error(e);
-                            EclipseUtils.reportError("Profile is improperly formatted: " + e.getMessage());
-                        }
-                    });
+                             profiles.add(profile);
+                             profilePathMap.put(profile.getId(), f);
+                         } catch (IOException e) {
+                             logger.error(e);
+                             EclipseUtils.reportError("Could not read profile: " + e.getMessage());
+                         } catch (InvalidFileFormatException e) {
+                             logger.error(e);
+                             EclipseUtils.reportError("Profile is improperly formatted: " + e.getMessage());
+                         }
+                     });
             } catch (IOException e) {
-                EclipseUtils.logger().info(String.format("Skipping annotation profiles in %s.", registryPath));
+                logger.info(String.format("Skipping annotation profiles in %s.", registryPath));
             } finally {
                 if (paths != null) {
                     paths.close();
