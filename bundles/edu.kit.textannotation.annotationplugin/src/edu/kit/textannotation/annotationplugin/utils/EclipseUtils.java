@@ -105,10 +105,25 @@ public class EclipseUtils {
     }
 
     /**
-     * Open the eclipse create-wizard with the specified ID. The wizard has to be specified as an
-     * contribution by either the eclipse core platform or by some currently loaded plugin.
-     * This call is blocking until the wizard is closed.
-     * @param id the ID of the wizard to be opened.
+     * Get all projects currently loaded in the workspace.
+     *
+     * @param bundle
+     *            the eclipse environment bundle.
+     * @return a list containing the projects of the workspace.
+     */
+    public static List<IProject> getAllWorkspaceProjects() {
+        IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        IWorkspaceRoot root = workspace.getRoot();
+
+        return List.of(root.getProjects());
+    }
+
+    /**
+     * Open the eclipse create-wizard with the specified ID. The wizard has to be specified as an contribution by either
+     * the eclipse core platform or by some currently loaded plugin. This call is blocking until the wizard is closed.
+     *
+     * @param id
+     *            the ID of the wizard to be opened.
      * @return a reference on the wizard if it could be found, or null otherwise.
      */
     @Nullable

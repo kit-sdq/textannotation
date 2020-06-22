@@ -82,11 +82,22 @@ public class AnnotationProfileRegistry {
     public static AnnotationProfileRegistry createNew(Bundle bundle) {
         List<String> paths = new ArrayList<>();
 
-        paths.add(System.getProperty("user.dir") + "/.textannotation"); // eclipseinstalldir/.textannotation
-        paths.add(EclipseUtils.getCurrentWorkspaceDirectory(bundle)); // workspace directory
+        // User's home in the folder /.textannotation
+        paths.add(System.getProperty("user.home") + File.separator + ".textannotation");
 
-        EclipseUtils.logger().info("AnnotationProfileRegistry: Reading profiles from the following paths:");
-        paths.forEach(p -> EclipseUtils.logger().info(p));
+        // workspace directory
+        paths.add(EclipseUtils.getCurrentWorkspaceDirectory(bundle));
+
+        for (IProject project : EclipseUtils.getAllWorkspaceProjects()) {
+            String projectLocation = project.getLocation()
+                                            .toOSString();
+            paths.add(projectLocation);
+        }
+
+        if (logger.isInfoEnabled()) {
+            logger.info("AnnotationProfileRegistry: Reading profiles from the following paths:");
+            paths.forEach(path -> logger.info(path));
+        }
 
         return new AnnotationProfileRegistry(paths);
     }
