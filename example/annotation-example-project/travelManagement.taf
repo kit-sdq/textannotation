@@ -20,7 +20,11 @@
   <annotation annotation="Stakeholder" id="e97f35d5-91d2-4c34-9022-5d0e016ee16b" length="34" offset="2223"/>
   <annotation annotation="Stakeholder" id="a1fed711-0850-4429-95e0-04229276a25c" length="11" offset="2275"/>
   <annotation annotation="Stakeholder" id="6c55796a-efdb-4a3c-81cd-c11764fc6f7d" length="11" offset="2476"/>
-  <annotation annotation="Goal" id="9467d675-ac40-4e89-8ee3-1eb4a8ec2beb" length="147" offset="2553"/>
+  <annotation annotation="Goal" id="ab6856bb-c71e-4e09-99af-36a0a2f86d91" length="89" offset="0"/>
+  <annotation annotation="Goal" id="1204761e-81ea-4b29-84f4-c025b0841a40" length="34" offset="2787"/>
+  <annotation annotation="Functional Requirement" id="c0d607b3-5455-4ac6-b22d-b639615ec55b" length="163" offset="2554"/>
+  <annotation annotation="Stakeholder" id="58385b30-2665-4a33-9ef7-8c6445161210" length="34" offset="2718"/>
+  <annotation annotation="Goal" id="54b87bdb-7e4b-4bdb-bcfd-222f214066e6" length="33" offset="2753"/>
   <content>So far, our travel management is still characterized by many forms and manual transfers. We want to
 completely replace this old system with a new, paperless system that will reduce the costs of processing
 travel requests and travel reimbursements and that will simplify the booking and documentation for the
@@ -52,5 +56,9 @@ System, operated by the IT Services, because we do not want to manage the rights
 unauthorized access to the system should be prevented. I think the system should also be operated in the
 data center of our IT services so that the existing infrastructure can be used cost-efficiently.
 
-I think the system should also be operated in the data center of our IT services so that the existing infrastructure can be used cost-efficiently.</content>
+Sentence tests:
+I think the system should also be operated in the data center of our IT services so that the existing infrastructure can be used cost-efficiently.
+Today, Mr. Doe visited his aunt...
+Today, Mrs. Doe visited her aunt.
+Today, Prof. Doe visited his aunt.</content>
 </annotated>

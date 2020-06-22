@@ -54,7 +54,7 @@ public class AnnotatedTextPresentationReconciler implements IPresentationReconci
 
                     textViewer.setTextColor(ac.getColor(), an.getOffset(), an.getLength(), true);
                 } catch (Exception e) {
-                    logger.error(e);
+                    logger.error(e.getMessage(), e);
                 }
             }
         }
